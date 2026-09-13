@@ -1,30 +1,32 @@
 class Solution {
 public:
     string convert(string s, int numRows) {
-        int n = s.size();
-
-        // No zigzag needed
-        if (numRows == 1 || numRows >= n)
+        if(numRows == 1 || numRows >= s.length())
             return s;
 
-        string result;
-        int cycle = 2 * numRows - 2;
+        vector<string> rows(numRows);
 
-        // Process each row of the zigzag
-        for (int row = 0; row < numRows; row++) {
+        int row = 0;
+        int direction = 1;
 
-            // Add vertical characters
-            for (int j = row; j < n; j += cycle) {
-                result += s[j];
+        for(int i = 0; i < s.length(); i++) {
+            rows[row] += s[i];
 
-                // Add diagonal character for middle rows
-                int diagonal = j + cycle - 2 * row;
+            if(row == 0)
+                direction = 1;
 
-                if (row != 0 && row != numRows - 1 && diagonal < n)
-                    result += s[diagonal];
-            }
+            if(row == numRows - 1)
+                direction = -1;
+
+            row += direction;
         }
 
-        return result;
+        string answer = "";
+
+        for(int i = 0; i < numRows; i++) {
+            answer += rows[i];
+        }
+
+        return answer;
     }
 };
