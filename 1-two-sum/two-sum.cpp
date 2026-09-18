@@ -1,4 +1,3 @@
-
 class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
@@ -10,7 +9,6 @@ public:
             int complement = target - nums[i];
 
             if (mp.find(complement) != mp.end()) {
-
                 return {mp[complement], i};
             }
 
