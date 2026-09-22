@@ -1,26 +1,31 @@
 class Solution {
 public:
+    int value(char n)
+    {
+        if(n == 'I') return 1;
+        if(n == 'V') return 5;
+        if(n == 'X') return 10;
+        if(n == 'L') return 50;
+        if(n == 'C') return 100;
+        if(n == 'D') return 500;
+        if(n == 'M') return 1000;
+        return 0;
+    }
     int romanToInt(string s) {
-        unordered_map<char, int> value = {
-            {'I', 1},
-            {'V', 5},
-            {'X', 10},
-            {'L', 50},
-            {'C', 100},
-            {'D', 500},
-            {'M', 1000}
-        };
-
-        int number = 0;
-
-        for (int i = 0; i < s.length(); i++) {
-            if (i + 1 < s.length() && value[s[i]] < value[s[i + 1]]) {
-                number -= value[s[i]];
-            } else {
-                number += value[s[i]];
+        int n = s.size();
+        int ans = 0;
+        for(int i=0;i<n;i++)
+        {
+            if( i+1 < n && value(s[i+1]) > value(s[i]))
+            {
+                ans += (value(s[i+1]) - value(s[i]));
+                i++;
+            }
+            else
+            {
+                ans += value(s[i]);
             }
         }
-
-        return number;
+        return ans;
     }
 };
