@@ -1,21 +1,16 @@
-class Solution
-{
+class Solution {
 public:
-    int firstUniqChar(string s)
-    {
-        int count[26] = {0};
+    int firstUniqChar(string s) {
+        int freq[26] = {0};
 
-        // Count each character
-        for (int i = 0; i < s.length(); i++)
-        {
-            count[s[i] - 'a']++;
+        // Count frequency of each character
+        for (char ch : s) {
+            freq[ch - 'a']++;
         }
 
-        // Find first character with count 1
-        for (int i = 0; i < s.length(); i++)
-        {
-            if (count[s[i] - 'a'] == 1)
-            {
+        // Find the first character with frequency 1
+        for (int i = 0; i < s.length(); i++) {
+            if (freq[s[i] - 'a'] == 1) {
                 return i;
             }
         }
