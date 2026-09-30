@@ -1,49 +1,19 @@
 class MyCircularQueue {
-    int q[1000];
-    int front = 0;
-    int rear = 0;
-    int size = 0;
-    int capacity;
-
+    vector<int> q; int head = 0, cnt = 0, cap;
 public:
-    MyCircularQueue(int k) {
-        capacity = k;
-    }
-
+    MyCircularQueue(int k) : q(k), cap(k) {}
     bool enQueue(int value) {
-        if (size == capacity)
-            return false;
-
-        q[rear] = value;
-        rear = (rear + 1) % capacity;
-        size++;
-
+        if (isFull()) return false;
+        q[(head + cnt) % cap] = value; cnt++;
         return true;
     }
-
     bool deQueue() {
-        if (size == 0)
-            return false;
-
-        front = (front + 1) % capacity;
-        size--;
-
+        if (isEmpty()) return false;
+        head = (head + 1) % cap; cnt--;
         return true;
     }
-
-    int Front() {
-        return size == 0 ? -1 : q[front];
-    }
-
-    int Rear() {
-        return size == 0 ? -1 : q[(rear - 1 + capacity) % capacity];
-    }
-
-    bool isEmpty() {
-        return size == 0;
-    }
-
-    bool isFull() {
-        return size == capacity;
-    }
+    int Front() { return isEmpty() ? -1 : q[head]; }
+    int Rear() { return isEmpty() ? -1 : q[(head + cnt - 1) % cap]; }
+    bool isEmpty() { return cnt == 0; }
+    bool isFull() { return cnt == cap; }
 };
