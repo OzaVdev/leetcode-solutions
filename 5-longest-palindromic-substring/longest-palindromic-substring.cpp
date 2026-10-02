@@ -1,45 +1,51 @@
 class Solution {
 public:
+    string longestPalindrome(string s) {
+        string t = "^";
 
-    // Expand from the center and return palindrome length
-    int expand(string &s, int left, int right) {
-
-        while (left >= 0 && right < s.length() &&
-               s[left] == s[right]) {
-
-            left--;
-            right++;
+        for (char c : s) {
+            t += "#";
+            t += c;
         }
 
-        // Length of palindrome
-        return right - left - 1;
-    }
+        t += "#$";
 
-    string longestPalindrome(string s) {
+        int n = t.length();
+        vector<int> p(n, 0);
 
-        int start = 0;
-        int maxLength = 1;
+        int center = 0;
+        int right = 0;
 
-        for (int i = 0; i < s.length(); i++) {
+        for (int i = 1; i < n - 1; i++) {
 
-            // Odd length palindrome
-            int len1 = expand(s, i, i);
+            int mirror = 2 * center - i;
+            if (i < right) {
+                p[i] = min(right - i, p[mirror]);
+            }
 
-            // Even length palindrome
-            int len2 = expand(s, i, i + 1);
+            while (t[i + (1 + p[i])] ==
+                   t[i - (1 + p[i])]) {
+                p[i]++;
+            }
 
-            int len = max(len1, len2);
 
-            // Update longest palindrome
-            if (len > maxLength) {
-
-                maxLength = len;
-
-                // Find starting index
-                start = i - (len - 1) / 2;
+            if (i + p[i] > right) {
+                center = i;
+                right = i + p[i];
             }
         }
 
-        return s.substr(start, maxLength);
+        int maxLen = 0;
+        int centerIndex = 0;
+
+        for (int i = 1; i < n - 1; i++) {
+            if (p[i] > maxLen) {
+                maxLen = p[i];
+                centerIndex = i;
+            }
+        }
+        int start = (centerIndex - maxLen) / 2;
+
+        return s.substr(start, maxLen);
     }
 };
