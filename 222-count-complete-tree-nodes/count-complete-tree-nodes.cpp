@@ -9,34 +9,35 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-
 class Solution {
 public:
-    int countNodes(TreeNode* root) {
-        if (root == nullptr) {
+    int maxV = 0;
+    int calDepth(TreeNode* n) {
+        if(n==nullptr) {
             return 0;
         }
-
-        int leftHeight = 0, rightHeight = 0;
-
-        TreeNode* left = root;
-        TreeNode* right = root;
-
-        while (left != nullptr) {
-            leftHeight++;
-            left = left->left;
+        int left = 1 + calDepth(n->left);
+        return left;
+    }
+    void calculate(TreeNode*node, int val, TreeNode* parent) {
+        if(node==nullptr) {
+            return;
         }
-
-        while (right != nullptr) {
-            rightHeight++;
-            right = right->right;
+        maxV = max(maxV, val);
+        if(node->right != nullptr && parent != nullptr) {
+            parent->left = nullptr;
         }
-
-        if (leftHeight == rightHeight) {
-            return (1 << leftHeight) - 1;
+        int l = calDepth(node->left);
+        int r = calDepth(node->right);
+        if(l<=r) {
+            calculate(node->right,(val*2)+1, node);
+        } else {
+            calculate(node->left,(val*2), node);
         }
-
-        return 1 + countNodes(root->left)
-                 + countNodes(root->right);
+    }
+    int countNodes(TreeNode* root) {
+        maxV = 0;
+        calculate(root, 1, nullptr);
+        return maxV;
     }
 };
