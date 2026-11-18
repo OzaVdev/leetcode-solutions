@@ -3,7 +3,6 @@ public:
     int findCenter(vector<vector<int>>& edges) {
         //First Pair 
         int a = edges[0][0];
-        int b = edges[0][1];
 
         // Second Element 
         int c = edges[1][0];
@@ -12,6 +11,6 @@ public:
         if(a==c || a==d)
             return a;
     
-    return b;
+    return edges[0][1];
     }
 };
