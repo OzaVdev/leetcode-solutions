@@ -11,13 +11,10 @@
 class Solution {
 public:
     ListNode* removeNthFromEnd(ListNode* head, int n) {
-
-        // FIX 1: Handle an empty list
         if (head == NULL) {
             return head;
         }
 
-        // FIX 2: Count the total number of nodes
         ListNode* temp = head;
         int length = 0;
 
@@ -26,24 +23,20 @@ public:
             temp = temp->next;
         }
 
-        // FIX 3: Calculate the target's zero-based index
         int target = length - n;
 
-        // FIX 4: If the target is the head, update head
         if (target == 0) {
             ListNode* newHead = head->next;
             delete head;
             return newHead;
         }
 
-        // FIX 5: Reach the node immediately before the target
         temp = head;
 
         for (int i = 0; i < target - 1; i++) {
             temp = temp->next;
         }
 
-        // FIX 6: Skip the target node
         ListNode* toDelete = temp->next;
         temp->next = toDelete->next;
         delete toDelete;
